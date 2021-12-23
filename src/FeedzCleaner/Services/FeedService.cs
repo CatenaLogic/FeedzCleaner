@@ -49,11 +49,11 @@
                 {
                     if (!context.PackagesToRemove.Any(x => x.Id == package.Id))
                     {
-                        Log.Debug($"Keeping package {package.Id} v{package.Version}");
+                        Log.Debug($"Keeping package {package.PackageId} v{package.Version}");
                         continue;
                     }
 
-                    Log.Debug($"Removing package {package.Id} v{package.Version}");
+                    Log.Debug($"Removing package {package.PackageId} v{package.Version}");
 
                     if (!context.IsDryRun)
                     {
