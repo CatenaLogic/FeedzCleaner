@@ -1,0 +1,194 @@
+﻿<catel:Window x:Class="FeedzCleaner.Views.MainWindow"
+              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+              xmlns:catel="http://schemas.catelproject.com"
+              xmlns:views="clr-namespace:FeedzCleaner.Views"
+              xmlns:xamlbehaviors="http://schemas.microsoft.com/xaml/behaviors"
+              xmlns:orccontrols="http://schemas.wildgums.com/orc/controls"
+              xmlns:orclogviewer="http://schemas.wildgums.com/orc/logviewer"
+              mc:Ignorable="d"
+              MinWidth="1000"
+              MinHeight="800">
+
+    <orccontrols:StackGrid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="3*"
+                           MinHeight="150" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="2*"
+                           MinHeight="150" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label>
+            <TextBlock TextWrapping="Wrap">
+                This tool can help you clean up Feedz.io repositories by indexing old unstable versions. First the tool will
+                index the packages and automatically select the packages pending deletion.
+                <LineBreak /><LineBreak />
+                Once the packages have been analyzed, you can use the 'Clean up' button to actually clean up the repositories. 
+                To exclude packages from the process, use the checkboxes to exclude them.
+            </TextBlock>
+        </Label>
+
+        <Label Style="{StaticResource LabelInfoStyle}"
+               Tag="Warning">
+            We have tested this software, but you are using this at your own risk. Make sure that all Feedz.io packages can be restored to
+            the state before using this software. Don't blame us when you lose your data, you are responsible for your own backups.
+        </Label>
+
+        <orccontrols:StackGrid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Content="Organization" />
+            <TextBox Text="{Binding Organization}" />
+
+            <Label Content="Feed name" />
+            <TextBox Text="{Binding FeedName}" />
+
+            <Label Content="Api token" />
+            <PasswordBox>
+                <xamlbehaviors:Interaction.Behaviors>
+                    <catel:UpdateBindingOnPasswordChanged Password="{Binding ApiToken}" />
+                </xamlbehaviors:Interaction.Behaviors>
+            </PasswordBox>
+        </orccontrols:StackGrid>
+
+        <DataGrid x:Name="dataGrid"
+                  ItemsSource="{Binding Packages}"
+                  AutoGenerateColumns="False"
+                  EnableRowVirtualization="False"
+                  IsReadOnly="True">
+            <DataGrid.Resources>
+                <Style TargetType="TextBlock"
+                       x:Key="MultiLineColumnViewStyle">
+                    <Setter Property="TextWrapping"
+                            Value="Wrap" />
+                </Style>
+
+                <Style TargetType="TextBox"
+                       x:Key="MultiLineColumnEditStyle">
+                    <Setter Property="TextWrapping"
+                            Value="Wrap" />
+                    <Setter Property="AcceptsReturn"
+                            Value="True" />
+                </Style>
+
+                <DataTemplate x:Key="IsIncludedCheckBoxDataTemplate">
+                    <CheckBox IsChecked="{Binding ToBeRemoved}"
+                              Unchecked="OnCheckBoxCheckedChanged"
+                              Checked="OnCheckBoxCheckedChanged"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center" />
+                </DataTemplate>
+            </DataGrid.Resources>
+
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="Remove"
+                                        CellTemplate="{StaticResource IsIncludedCheckBoxDataTemplate}" />
+
+                <DataGridTemplateColumn Header="Name"
+                                        Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding PackageId}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <DataGridTemplateColumn Header="Version"
+                                        Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Version}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+                <!--<DataGridTemplateColumn Header="Cleanable size" Width="200">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding CleanableSize, Converter={converters:SpaceToTextConverter}}">
+                                <TextBlock.ToolTip>
+                                    <views:SizeToolTipView />
+                                </TextBlock.ToolTip>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>-->
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <orccontrols:StackGrid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <Label Content="To keep:" />
+            <Label Content="{Binding TotalPackagesKept}" />
+            
+            <Label Content="To remove:" />
+            <Label Content="{Binding TotalPackagesRemoved}" />
+            
+            <Label Content="Size saved:" />
+            <Label Content="{Binding TotalSizeSaved}" />
+        </orccontrols:StackGrid>
+        
+        <orclogviewer:AdvancedLogViewerControl Margin="-4,12,-4,4" />
+
+        <ProgressBar Height="5"
+                     Visibility="{Binding IsBusy, Converter={catel:BooleanToHidingVisibilityConverter}}"
+                     Minimum="0"
+                     Maximum="100"
+                     Value="{Binding Progress, Mode=OneWay}"
+                     Margin="0,4,0,4" />
+
+        <StackPanel Orientation="Horizontal"
+                    HorizontalAlignment="Right">
+            <orccontrols:AnimatedGif Visibility="{Binding IsBusy, Converter={catel:BooleanToHidingVisibilityConverter}}"
+                                     GifSource="/Resources/Images/Loading.gif"
+                                     HorizontalAlignment="Center"
+                                     VerticalAlignment="Center"
+                                     Width="24"
+                                     Height="24"
+                                     Margin="4,8,4,4" />
+
+            <Button Content="Analyze"
+                    Command="{Binding Analyze}"
+                    Style="{StaticResource RightAlignedFixedSizeButtonStyle}" />
+            <Button Content="Fake clean up"
+                    Command="{Binding FakeCleanUp}"
+                    Style="{StaticResource RightAlignedFixedSizeButtonStyle}"
+                    ToolTip="Run the whole clean up in fake mode -> not actually cleaning up anything" />
+            <Button Content="Clean up"
+                    Command="{Binding CleanUp}"
+                    Style="{StaticResource RightAlignedFixedSizeButtonStyle}"
+                    ToolTip="Run the whole clean up in real mode -> actually cleaning up everything" />
+        </StackPanel>
+    </orccontrols:StackGrid>
+
+</catel:Window>
+

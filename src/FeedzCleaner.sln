@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.31911.260
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedzCleaner", "FeedzCleaner\FeedzCleaner.csproj", "{A7D6683F-3039-46E3-B4E7-EE2E30814FB1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{3FC2F6BF-A28C-474B-92A4-BEED6C98BAC6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{8E1BFB30-E258-4E17-B83C-301F3D1E4071}"
+	ProjectSection(SolutionItems) = preProject
+		FeedzCleaner.sln.DotSettings = FeedzCleaner.sln.DotSettings
+		nuget.config = nuget.config
+		SolutionAssemblyInfo.cs = SolutionAssemblyInfo.cs
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{F4EE9B75-6EDA-46D0-B3EC-45ADA5B69FE8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{F7987CAA-E9CC-4BAF-B693-491B7957E067}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FeedzCleaner.Tests", "FeedzCleaner.Tests\FeedzCleaner.Tests.csproj", "{C5A56DEF-9D19-47F0-8685-3E16B1F1902E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A7D6683F-3039-46E3-B4E7-EE2E30814FB1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A7D6683F-3039-46E3-B4E7-EE2E30814FB1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A7D6683F-3039-46E3-B4E7-EE2E30814FB1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A7D6683F-3039-46E3-B4E7-EE2E30814FB1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C5A56DEF-9D19-47F0-8685-3E16B1F1902E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C5A56DEF-9D19-47F0-8685-3E16B1F1902E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C5A56DEF-9D19-47F0-8685-3E16B1F1902E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C5A56DEF-9D19-47F0-8685-3E16B1F1902E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{A7D6683F-3039-46E3-B4E7-EE2E30814FB1} = {F4EE9B75-6EDA-46D0-B3EC-45ADA5B69FE8}
+		{F4EE9B75-6EDA-46D0-B3EC-45ADA5B69FE8} = {3FC2F6BF-A28C-474B-92A4-BEED6C98BAC6}
+		{F7987CAA-E9CC-4BAF-B693-491B7957E067} = {3FC2F6BF-A28C-474B-92A4-BEED6C98BAC6}
+		{C5A56DEF-9D19-47F0-8685-3E16B1F1902E} = {F7987CAA-E9CC-4BAF-B693-491B7957E067}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {14F3B293-FB5F-4491-8362-2C9C9D7025BE}
+	EndGlobalSection
+	GlobalSection(Performance) = preSolution
+		HasPerformanceSessions = true
+	EndGlobalSection
+EndGlobal
