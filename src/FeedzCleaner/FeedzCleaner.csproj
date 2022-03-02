@@ -40,7 +40,7 @@
     <PackageReference Include="Orc.LogViewer" Version="4.2.0-alpha0368" />
     <PackageReference Include="Orc.Notifications" Version="4.3.0-alpha0238" />
     <PackageReference Include="Orc.Theming" Version="4.5.0-alpha0216" />
-    <PackageReference Include="Orchestra.Core" Version="6.7.0-alpha0143" />
+    <PackageReference Include="Orchestra.Core" Version="6.7.0-alpha0160" />
     <PackageReference Include="SemanticVersioning" Version="2.0.0" />
   </ItemGroup>
 
