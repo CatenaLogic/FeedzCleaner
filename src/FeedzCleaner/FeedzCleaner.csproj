@@ -27,7 +27,7 @@
   <ItemGroup>
     <PackageReference Include="Catel.MVVM" Version="5.12.22" />
     <PackageReference Include="Catel.Fody" Version="4.7.0" PrivateAssets="all" />
-    <PackageReference Include="Feedz.Client" Version="2.2.1" />
+    <PackageReference Include="Feedz.Client" Version="3.0.0" />
     <PackageReference Include="Fody" Version="6.6.2" PrivateAssets="all">
       <IncludeAssets>build; native; contentfiles; analyzers</IncludeAssets>
     </PackageReference>
