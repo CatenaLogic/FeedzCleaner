@@ -1,24 +1,15 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="MainViewModel.cs" company="CatenaLogic">
-//   Copyright (c) 2014 - 2015 CatenaLogic. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace FeedzCleaner.ViewModels
+﻿namespace FeedzCleaner.ViewModels
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Catel;
-    using Catel.Collections;
     using Catel.Configuration;
     using Catel.Logging;
     using Catel.MVVM;
     using Catel.Reflection;
     using Catel.Services;
-    using Catel.Threading;
     using Humanizer;
     using MethodTimer;
     using Services;
@@ -37,11 +28,11 @@ namespace FeedzCleaner.ViewModels
             IDispatcherService dispatcherService, IConfigurationService configurationService,
             IMessageService messageService)
         {
-            Argument.IsNotNull(() => feedService);
-            Argument.IsNotNull(() => feedCleanupService);
-            Argument.IsNotNull(() => dispatcherService);
-            Argument.IsNotNull(() => configurationService);
-            Argument.IsNotNull(() => messageService);
+            ArgumentNullException.ThrowIfNull(feedService);
+            ArgumentNullException.ThrowIfNull(feedCleanupService);
+            ArgumentNullException.ThrowIfNull(dispatcherService);
+            ArgumentNullException.ThrowIfNull(configurationService);
+            ArgumentNullException.ThrowIfNull(messageService);
 
             _feedService = feedService;
             _feedCleanupService = feedCleanupService;

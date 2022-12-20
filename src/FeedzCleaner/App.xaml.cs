@@ -1,18 +1,10 @@
-﻿// --------------------------------------------------------------------------------------------------------------------
-// <copyright file="App.xaml.cs" company="CatenaLogic">
-//   Copyright (c) 2014 - 2015 CatenaLogic. All rights reserved.
-// </copyright>
-// --------------------------------------------------------------------------------------------------------------------
-
-
-namespace FeedzCleaner
+﻿namespace FeedzCleaner
 {
     using System;
     using System.Windows;
     using System.Windows.Media;
     using Catel.Logging;
     using Orc.Theming;
-    using Orchestra;
 
     /// <summary>
     /// Interaction logic for App.xaml
