@@ -41,7 +41,7 @@
     <PackageReference Include="Orc.Notifications" Version="5.1.0" />
     <PackageReference Include="Orc.Theming" Version="5.1.2" />
     <PackageReference Include="Orchestra.Core" Version="7.0.5" />
-    <PackageReference Include="SemanticVersioning" Version="2.0.2" />
+    <PackageReference Include="SemanticVersioning" Version="3.0.0" />
   </ItemGroup>
 
   <ItemGroup>
