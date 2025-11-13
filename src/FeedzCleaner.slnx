@@ -1,0 +1,17 @@
+<Solution>
+  <Folder Name="/misc/">
+    <File Path="FeedzCleaner.sln.DotSettings" />
+    <File Path="nuget.config" />
+    <File Path="SolutionAssemblyInfo.cs" />
+  </Folder>
+  <Folder Name="/src/" />
+  <Folder Name="/src/Core/">
+    <Project Path="FeedzCleaner/FeedzCleaner.csproj" />
+  </Folder>
+  <Folder Name="/src/Tests/">
+    <Project Path="FeedzCleaner.Tests/FeedzCleaner.Tests.csproj" />
+  </Folder>
+  <Properties Name="Performance">
+    <Property Name="HasPerformanceSessions" Value="true" />
+  </Properties>
+</Solution>
