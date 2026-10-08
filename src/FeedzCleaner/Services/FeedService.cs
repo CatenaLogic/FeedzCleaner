@@ -4,13 +4,20 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Catel.Logging;
     using Feedz.Client;
     using MethodTimer;
+    using Microsoft.Extensions.Logging;
 
     public class FeedService : IFeedService
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private readonly ILogger<FeedService> _logger;
+
+        public FeedService(ILogger<FeedService> logger)
+        {
+            ArgumentNullException.ThrowIfNull(logger);
+
+            _logger = logger;
+        }
 
         [Time]
         public async Task<List<Package>> IndexPackagesAsync(FeedsContext context)
@@ -39,7 +46,7 @@
             {
                 var repositoryScope = client.ScopeToRepository(context.OrganizationName, context.Repository.Slug);
 
-                Log.Info($"Cleaning up feed '{repositoryScope.RootUri}'");
+                _logger.LogInformation("Cleaning up feed '{RootUri}'", repositoryScope.RootUri);
 
                 var packages = await repositoryScope.Packages.List();
 
@@ -49,11 +56,11 @@
                 {
                     if (!context.PackagesToRemove.Any(x => x.Id == package.Id))
                     {
-                        Log.Debug($"Keeping package {package.PackageId} v{package.Version}");
+                        _logger.LogDebug("Keeping package {PackageId} v{Version}", package.PackageId, package.Version);
                         continue;
                     }
 
-                    Log.Debug($"Removing package {package.PackageId} v{package.Version}");
+                    _logger.LogDebug("Removing package {PackageId} v{Version}", package.PackageId, package.Version);
 
                     if (!context.IsDryRun)
                     {

@@ -6,43 +6,46 @@
     using System.Threading.Tasks;
     using Catel;
     using Catel.Configuration;
-    using Catel.Logging;
     using Catel.MVVM;
     using Catel.Reflection;
     using Catel.Services;
     using Humanizer;
     using MethodTimer;
+    using Microsoft.Extensions.Logging;
     using Services;
 
     internal class MainViewModel : ViewModelBase
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
-
+        private readonly ILogger<MainViewModel> _logger;
         private readonly IFeedService _feedService;
         private readonly IFeedCleanupService _feedCleanupService;
         private readonly IDispatcherService _dispatcherService;
         private readonly IConfigurationService _configurationService;
         private readonly IMessageService _messageService;
 
-        public MainViewModel(IFeedService feedService, IFeedCleanupService feedCleanupService,
+        public MainViewModel(IServiceProvider serviceProvider, ILogger<MainViewModel> logger, IFeedService feedService, IFeedCleanupService feedCleanupService,
             IDispatcherService dispatcherService, IConfigurationService configurationService,
             IMessageService messageService)
+            : base(serviceProvider)
         {
+            ArgumentNullException.ThrowIfNull(serviceProvider);
+            ArgumentNullException.ThrowIfNull(logger);
             ArgumentNullException.ThrowIfNull(feedService);
             ArgumentNullException.ThrowIfNull(feedCleanupService);
             ArgumentNullException.ThrowIfNull(dispatcherService);
             ArgumentNullException.ThrowIfNull(configurationService);
             ArgumentNullException.ThrowIfNull(messageService);
 
+            _logger = logger;
             _feedService = feedService;
             _feedCleanupService = feedCleanupService;
             _dispatcherService = dispatcherService;
             _configurationService = configurationService;
             _messageService = messageService;
 
-            Analyze = new Command(OnAnalyzeExecute, OnAnalyzeCanExecute);
-            FakeCleanUp = new Command(OnFakeCleanUpExecute, OnCleanUpCanExecute);
-            CleanUp = new Command(OnCleanUpExecute, OnCleanUpCanExecute);
+            Analyze = new Command(serviceProvider, OnAnalyzeExecute, OnAnalyzeCanExecute);
+            FakeCleanUp = new Command(serviceProvider, OnFakeCleanUpExecute, OnCleanUpCanExecute);
+            CleanUp = new Command(serviceProvider, OnCleanUpExecute, OnCleanUpCanExecute);
 
             var entryAssembly = AssemblyHelper.GetEntryAssembly();
             Title = string.Format("{0} - v{1}", entryAssembly.Title(), entryAssembly.InformationalVersion());
@@ -102,7 +105,7 @@
             }
             catch (Exception ex)
             {
-                Log.Error(ex, "Failed to find packages");
+                _logger.LogError(ex, "Failed to find packages");
             }
         }
 
