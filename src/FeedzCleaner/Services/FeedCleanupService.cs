@@ -4,16 +4,18 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Catel.Logging;
     using MethodTimer;
+    using Microsoft.Extensions.Logging;
 
     public class FeedCleanupService : IFeedCleanupService
     {
-        private static readonly ILog Log = LogManager.GetCurrentClassLogger();
+        private readonly ILogger<FeedCleanupService> _logger;
 
-        public FeedCleanupService()
+        public FeedCleanupService(ILogger<FeedCleanupService> logger)
         {
-            
+            ArgumentNullException.ThrowIfNull(logger);
+
+            _logger = logger;
         }
 
         [Time]
@@ -33,18 +35,18 @@
 
         protected async Task AutomaticallySelectRemovablePackagesAsync(string packageId, List<Package> packages)
         {
-            Log.Info($"  Automatically selecting packages to be removed for '{packageId}'");
+            _logger.LogInformation("  Automatically selecting packages to be removed for '{PackageId}'", packageId);
 
             var descSsortedVersions = packages.Select(x => new Tuple<Package, SemanticVersioning.Version>(x, new SemanticVersioning.Version(x.Version))).OrderByDescending(x => x.Item2).ToList();
             var ascSortedVersions = descSsortedVersions.OrderBy(x => x.Item2).ToList();
             var lastStableVersion = descSsortedVersions.FirstOrDefault(x => !x.Item2.IsPreRelease)?.Item2;
             if (lastStableVersion is null)
             {
-                Log.Info($"    No stable versions available, keeping all versions");
+                _logger.LogInformation("    No stable versions available, keeping all versions");
                 return;
             }
 
-            Log.Info($"    Last stable version: {lastStableVersion}");
+            _logger.LogInformation("    Last stable version: {Version}", lastStableVersion);
 
             foreach (var packageWithVersion in ascSortedVersions)
             {
@@ -55,13 +57,13 @@
 
                 if (!version.IsPreRelease)
                 {
-                    Log.Debug($"    Keeping stable package version '{version}'");
+                    _logger.LogDebug("    Keeping stable package version '{Version}'", version);
                     continue;
                 }
 
                 if (version > lastStableVersion)
                 {
-                    Log.Debug($"    Keeping prerelease package version '{version}'");
+                    _logger.LogDebug("    Keeping prerelease package version '{Version}'", version);
                     continue;
                 }
 
@@ -69,12 +71,12 @@
                 //{
                 //    if (version.BaseVersion() == lastStableVersion)
                 //    {
-                //        Log.Debug($"    Keeping beta package version '{version}'");
+                //    _logger.LogDebug("Keeping beta package version '{Version}'", version);
                 //        continue;
                 //    }
                 //}
 
-                Log.Info($"    Marking prerelease package version '{version}' to be removed");
+                _logger.LogInformation("    Marking prerelease package version '{Version}' to be removed", version);
 
                 package.ToBeRemoved = true;
             }

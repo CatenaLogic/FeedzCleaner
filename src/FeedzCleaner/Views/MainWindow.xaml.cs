@@ -10,11 +10,6 @@
     {
         private bool _isUpdatingCheckboxes;
 
-        public MainWindow()
-        {
-            InitializeComponent();
-        }
-
         protected override void OnLoaded(EventArgs e)
         {
             base.OnLoaded(e);
