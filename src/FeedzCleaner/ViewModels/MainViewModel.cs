@@ -194,7 +194,7 @@
                 return;
             }
 
-            Log.Info("Start indexing packages");
+            _logger.LogInformation("Start indexing packages");
 
             Progress = 0;
 
@@ -225,7 +225,7 @@
                 _configurationService.SetRoamingValue(Settings.Application.General.LastFeedName, feedName);
             }
 
-            Log.Info("Finished indexing packages");
+            _logger.LogInformation("Finished indexing packages");
 
             Progress = 100;
         }

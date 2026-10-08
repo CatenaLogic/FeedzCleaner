@@ -71,7 +71,7 @@
                 //{
                 //    if (version.BaseVersion() == lastStableVersion)
                 //    {
-                //        Log.Debug($"    Keeping beta package version '{version}'");
+                //    _logger.LogDebug("Keeping beta package version '{Version}'", version);
                 //        continue;
                 //    }
                 //}
