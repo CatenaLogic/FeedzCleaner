@@ -37,9 +37,15 @@
 
                     services.AddCatelCore();
                     services.AddCatelMvvm();
+
                     services.AddOrcControls();
+                    services.AddOrcFileSystem();
                     services.AddOrcLogViewer();
+                    services.AddOrcNotifications();
+                    services.AddOrcSerializationJson();
+                    services.AddOrcSystemInfo();
                     services.AddOrcTheming();
+
                     services.AddOrchestraCore();
 
                     services.AddSingleton<IFeedService, FeedService>();
